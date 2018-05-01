@@ -221,9 +221,9 @@
         "package": "VaporCountries",
         "repositoryURL": "https://github.com/mihaelamj/VaporCountries.git",
         "state": {
-          "branch": null,
+          "branch": "master",
           "revision": "1a1c59d8f9fad67574469d2eb0331ba5e7f42b40",
-          "version": "0.0.0"
+          "version": null
         }
       },
       {

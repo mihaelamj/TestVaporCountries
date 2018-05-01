@@ -1,5 +1,6 @@
 import FluentPostgreSQL
 import Vapor
+import VaporCountries
 
 /// Called before your application initializes.
 ///

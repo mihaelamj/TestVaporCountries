@@ -13,7 +13,7 @@ let package = Package(
       .package(url: "https://github.com/vapor/fluent-mysql.git", from: "3.0.0-rc.2.3"),
       
       //VaporCountries
-        .package(url: "https://github.com/mihaelamj/VaporCountries.git", from: "0.0.4")
+        .package(url: "https://github.com/mihaelamj/VaporCountries.git", from: "0.0.5")
 //       .package(url: "https://github.com/mihaelamj/VaporCountries.git", .branch("master"))
   ],
     targets: [

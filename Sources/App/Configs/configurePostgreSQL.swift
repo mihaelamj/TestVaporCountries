@@ -43,6 +43,9 @@ public func configurePostgreSQL(
   
   //Generic Test Migration
   
+  Continent<PostgreSQLDatabase>.defaultDatabase = .psql
+  Country<PostgreSQLDatabase>.defaultDatabase = .psql
+  
   migrations.add(migration: ContinentMigration<PostgreSQLDatabase>.self, database: .psql)
   migrations.add(migration: CountryMigration<PostgreSQLDatabase>.self, database: .psql)
   

@@ -2,8 +2,8 @@ import Vapor
 import VaporCountries
 
 //Choose you DB provider
-import FluentSQLite
-//import FluentPostgreSQL
+
+
 //import FluentMySQL
 
 //protocol conformances
@@ -13,12 +13,15 @@ extension Continent : Parameter{}
 extension Continent : Content{}
 
 //Typecast the generic model to appropriate DB type
+import FluentSQLite
 public typealias CountrySQLite = Country<SQLiteDatabase>
 public typealias ContinentSQLite = Continent<SQLiteDatabase>
 
+//import FluentMySQL
 //public typealias CountrySQLite = Country<MySQLDatabase>
 //public typealias ContinentSQLite = Continent<MySQLDatabase>
 //
+//import FluentPostgreSQL
 //public typealias CountrySQLite = Country<PostgreSQLDatabase>
 //public typealias ContinentSQLite = Continent<PostgreSQLDatabase>
 
@@ -28,7 +31,7 @@ struct CountriesController: RouteCollection {
     let aRoute = router.grouped("api", "countries")
     
     //GET /api/countries
-    aRoute.get(use: getAllHandler)
+    aRoute.get(use: getAllPaginatedHandler)
     
     //GET /api/countries/:ID
     aRoute.get(CountrySQLite.parameter as PathComponentsRepresentable, use: getOneHandler)
@@ -37,8 +40,13 @@ struct CountriesController: RouteCollection {
     aRoute.get(CountrySQLite.parameter as PathComponentsRepresentable, "continent", use: getContinentHandler)
   }
   
-  func getAllHandler(_ req: Request) throws -> Future<[Country<SQLiteDatabase>]> {
+  func getAllHandler(_ req: Request) throws -> Future<[CountrySQLite]> {
     return CountrySQLite.query(on: req).all()
+  }
+  
+  //GET http://localhost:8080/api/countries?limit=20&page=1
+  func getAllPaginatedHandler(_ req: Request) throws -> Future<[CountrySQLite]> {
+    return try CountrySQLite.query(on: req).paginate(on: req).all()
   }
   
   func getOneHandler(_ req: Request) throws -> Future<CountrySQLite> {
@@ -59,7 +67,7 @@ struct ContinentsController: RouteCollection {
     let aRoute = router.grouped("api", "continets")
     
     //GET /api/continets
-    aRoute.get(use: getAllHandler)
+    aRoute.get(use: getAlPaginatedlHandler)
     
     //GET /api/continents/:continentID
     aRoute.get(ContinentSQLite.parameter, use: getOne)
@@ -70,6 +78,10 @@ struct ContinentsController: RouteCollection {
   
   func getAllHandler(_ req: Request) throws -> Future<[ContinentSQLite]> {
     return Continent.query(on: req).all()
+  }
+  
+  func getAlPaginatedlHandler(_ req: Request) throws -> Future<[ContinentSQLite]> {
+    return try Continent.query(on: req).paginate(on: req).all()
   }
   
   func getOne(_ req: Request) throws -> Future<ContinentSQLite> {

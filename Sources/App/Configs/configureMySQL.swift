@@ -42,12 +42,8 @@ public func configureMySQL(
   
   /// Configure migrations
   var migrations = MigrationConfig()
-  
-  Continent<MySQLDatabase>.defaultDatabase = .mysql
-  Country<MySQLDatabase>.defaultDatabase = .mysql
-  
-  migrations.add(migration: ContinentMigration<MySQLDatabase>.self, database: .mysql)
-  migrations.add(migration: CountryMigration<MySQLDatabase>.self, database: .mysql)
+
+  migrations.addVaporCountries(for: .mysql)
   
   services.register(migrations)
   

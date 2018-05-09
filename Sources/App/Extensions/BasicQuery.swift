@@ -48,7 +48,6 @@ extension QueryContainer {
 //GET http://localhost:8080/api/countries?limit=20&page=1
 
 extension QueryBuilder {
-    
     public func paginate(on req: Request) throws -> Self {
         if let limit = req.query.basic?.limit {
             let page = req.query.basic?.page ?? 0
@@ -57,5 +56,4 @@ extension QueryBuilder {
         }
         return self
     }
-    
 }

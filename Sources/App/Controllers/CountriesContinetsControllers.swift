@@ -59,39 +59,37 @@ struct CountriesController: RouteCollection {
     }
   }
   
-}
-
-struct ContinentsController: RouteCollection {
-  
-  func boot(router: Router) throws {
-    let aRoute = router.grouped("api", "continets")
+  struct ContinentsController: RouteCollection {
     
-    //GET /api/continets
-    aRoute.get(use: getAlPaginatedlHandler)
-    
-    //GET /api/continents/:continentID
-    aRoute.get(ContinentSQLite.parameter, use: getOne)
-    
-    //GET /api/continents/:continentID/countries
-    aRoute.get(ContinentSQLite.parameter, "countries", use: getCountriesHandler)
-  }
-  
-  func getAllHandler(_ req: Request) throws -> Future<[ContinentSQLite]> {
-    return Continent.query(on: req).all()
-  }
-  
-  func getAlPaginatedlHandler(_ req: Request) throws -> Future<[ContinentSQLite]> {
-    return try Continent.query(on: req).paginate(on: req).all()
-  }
-  
-  func getOne(_ req: Request) throws -> Future<ContinentSQLite> {
-    return try req.parameters.next(Continent.self)
-  }
-  
-  func getCountriesHandler(_ req: Request) throws -> Future<[CountrySQLite]> {
-    return try req.parameters.next(ContinentSQLite.self).flatMap(to: [CountrySQLite].self) { continent in
-      return try continent.countries.query(on: req).all()
+    func boot(router: Router) throws {
+      let aRoute = router.grouped("api", "continets")
+      
+      //GET /api/continets
+      aRoute.get(use: getAlPaginatedlHandler)
+      
+      //GET /api/continents/:continentID
+      aRoute.get(ContinentSQLite.parameter, use: getOne)
+      
+      //GET /api/continents/:continentID/countries
+      aRoute.get(ContinentSQLite.parameter, "countries", use: getCountriesHandler)
     }
-  }
-  
+    
+    func getAllHandler(_ req: Request) throws -> Future<[ContinentSQLite]> {
+      return Continent.query(on: req).all()
+    }
+    
+    func getAlPaginatedlHandler(_ req: Request) throws -> Future<[ContinentSQLite]> {
+      return try Continent.query(on: req).paginate(on: req).all()
+    }
+    
+    func getOne(_ req: Request) throws -> Future<ContinentSQLite> {
+      return try req.parameters.next(Continent.self)
+    }
+    
+    func getCountriesHandler(_ req: Request) throws -> Future<[CountrySQLite]> {
+      return try req.parameters.next(ContinentSQLite.self).flatMap(to: [CountrySQLite].self) { continent in
+        return try continent.countries.query(on: req).all()
+      }
+    }
+    
 }

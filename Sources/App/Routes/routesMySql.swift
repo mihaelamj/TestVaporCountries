@@ -2,7 +2,6 @@ import Routing
 import Vapor
 
 import VaporCountries
-
 import FluentMySQL
 
 /// Register your application's routes here.
